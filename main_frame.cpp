@@ -1,16 +1,10 @@
 #include "main_frame.h"
 
-//============================================================================
-// NOTE: Não remover
-//============================================================================
-template class SidePanel<ProgramTable *>;
-template class SidePanel<DataTable *>;
-
 MainFrame::MainFrame(wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &pos, const wxSize &size)
-    : wxFrame(parent, id, title, pos, size, wxSYSTEM_MENU | wxMINIMIZE_BOX | wxCLOSE_BOX) {
+    : wxFrame(parent, id, title, pos, size, wxSYSTEM_MENU | wxMINIMIZE_BOX | wxCLOSE_BOX | wxCAPTION) {
 
-    program_side_panel = new SidePanel<ProgramTable *>(this, wxID_ANY, wxT("Programa"));
-    data_side_panel    = new SidePanel<DataTable *>(this, wxID_ANY, wxT("Dados"));
+    program_side_panel = new SidePanel<ProgramTable *>(this, wxID_ANY, wxT("Programa"), wxDefaultPosition, wxSize(380, 500));
+    data_side_panel    = new SidePanel<DataTable *>(this, wxID_ANY, wxT("Dados"), wxDefaultPosition, wxSize(160, 500));
 
     side_panels.push_back(program_side_panel);
     side_panels.push_back(data_side_panel);
@@ -31,22 +25,16 @@ MainFrame::MainFrame(wxWindow *parent, wxWindowID id, const wxString &title, con
 
     SetMenuBar(menu_bar);
     DoLayout();
-    SetProperties();
     Layout();
     Center();
     UpdateSidePanelsPositions();
 }
 
-void MainFrame::SetProperties() {
-    program_side_panel->SetProperties();
-    data_side_panel->SetProperties();
-    program_side_panel->Show();
-    data_side_panel->Show();
-}
-
 void MainFrame::DoLayout() {
     program_side_panel->DoLayout();
     data_side_panel->DoLayout();
+    program_side_panel->Show();
+    data_side_panel->Show();
 }
 
 void MainFrame::UpdateSidePanelsPositions() {
@@ -63,7 +51,6 @@ void MainFrame::OnExit(wxCommandEvent &event) {
 }
 
 void MainFrame::OnOpenFile(wxCommandEvent &event) {
-    wxMessageBox("Fuck you!!");
 }
 
 void MainFrame::OnMove(wxMoveEvent &event) {
@@ -73,7 +60,6 @@ void MainFrame::OnMove(wxMoveEvent &event) {
 void MainFrame::OnSize(wxSizeEvent &event) {
     UpdateSidePanelsPositions();
 }
-
 
 void MainFrame::OnIconize(wxIconizeEvent &event) {
     bool show = !IsIconized();

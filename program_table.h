@@ -15,6 +15,7 @@ public:
     ProgramTable(wxWindow *parent, wxWindowID id);
     virtual wxString OnGetItemText(long item, long col) const;
     void SetItem(long item, long col, Byte value);
+    void ResizeCols();
 };
 
 #endif // __PROGRAM_TABLE_H__

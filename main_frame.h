@@ -19,7 +19,6 @@ private:
 public:
     MainFrame(wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &pos = wxDefaultPosition,
               const wxSize &size = wxDefaultSize);
-    void SetProperties();
     void DoLayout();
     void UpdateSidePanelsPositions();
 

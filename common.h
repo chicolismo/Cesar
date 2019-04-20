@@ -7,6 +7,13 @@
 #include <wx/wx.h>
 #endif
 
+#ifdef _WIN32
+const bool IS_WINDOWS = true;
+#else
+const bool IS_WINDOWS = false;
+#endif
+
+
 //============================================================================
 // Constantes
 //============================================================================
