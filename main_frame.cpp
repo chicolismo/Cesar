@@ -1,10 +1,17 @@
 #include "main_frame.h"
 
-MainFrame::MainFrame(wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &pos, const wxSize &size)
-    : wxFrame(parent, id, title, pos, size, wxSYSTEM_MENU | wxMINIMIZE_BOX | wxCLOSE_BOX | wxCAPTION) {
+//#include "tool_bar.h"
+#include "register_panel.h"
 
-    program_side_panel = new SidePanel<ProgramTable *>(this, wxID_ANY, wxT("Programa"), wxDefaultPosition, wxSize(380, 500));
-    data_side_panel    = new SidePanel<DataTable *>(this, wxID_ANY, wxT("Dados"), wxDefaultPosition, wxSize(160, 500));
+MainFrame::MainFrame(wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &pos,
+                     const wxSize &size)
+    : wxFrame(parent, id, title, pos, size,
+              wxSYSTEM_MENU | wxMINIMIZE_BOX | wxCLOSE_BOX | wxCAPTION) {
+
+    program_side_panel = new SidePanel<ProgramTable *>(this, wxID_ANY, wxT("Programa"),
+                                                       wxDefaultPosition, wxSize(380, 500));
+    data_side_panel = new SidePanel<DataTable *>(this, wxID_ANY, wxT("Dados"), wxDefaultPosition,
+                                                 wxSize(160, 500));
 
     side_panels.push_back(program_side_panel);
     side_panels.push_back(data_side_panel);
@@ -24,23 +31,33 @@ MainFrame::MainFrame(wxWindow *parent, wxWindowID id, const wxString &title, con
     menu_bar->Append(menu_file, "Arquivo");
 
     SetMenuBar(menu_bar);
+
     DoLayout();
     Layout();
     Center();
     UpdateSidePanelsPositions();
 }
 
+
 void MainFrame::DoLayout() {
+    RegisterPanel *r0 = new RegisterPanel(this, wxID_ANY);
+    Word random = rand() % 0xFFFF;
+    r0->SetValue(0xffaa);
+    wxBoxSizer *sizer = new wxBoxSizer(wxHORIZONTAL);
+    sizer->Add(r0, 1, wxEXPAND, 0);
+
     program_side_panel->DoLayout();
     data_side_panel->DoLayout();
     program_side_panel->Show();
     data_side_panel->Show();
 }
 
+
 void MainFrame::UpdateSidePanelsPositions() {
-    int gap     = 20;
+    int gap = 10;
     wxPoint pos = GetPosition();
-    program_side_panel->SetPosition(wxPoint(pos.x - program_side_panel->GetSize().GetWidth() - gap, pos.y));
+    program_side_panel->SetPosition(
+        wxPoint(pos.x - program_side_panel->GetSize().GetWidth() - gap, pos.y));
     data_side_panel->SetPosition(wxPoint(pos.x + this->GetSize().GetWidth() + gap, pos.y));
 }
 
@@ -50,16 +67,19 @@ void MainFrame::OnExit(wxCommandEvent &event) {
     Close(true);
 }
 
-void MainFrame::OnOpenFile(wxCommandEvent &event) {
-}
+
+void MainFrame::OnOpenFile(wxCommandEvent &event) {}
+
 
 void MainFrame::OnMove(wxMoveEvent &event) {
     UpdateSidePanelsPositions();
 }
 
+
 void MainFrame::OnSize(wxSizeEvent &event) {
     UpdateSidePanelsPositions();
 }
+
 
 void MainFrame::OnIconize(wxIconizeEvent &event) {
     bool show = !IsIconized();
@@ -67,6 +87,7 @@ void MainFrame::OnIconize(wxIconizeEvent &event) {
         panel->Show(show);
     }
 }
+
 
 wxBEGIN_EVENT_TABLE(MainFrame, wxFrame)
     EVT_MENU(ID_OpenFile, MainFrame::OnOpenFile)
@@ -76,5 +97,3 @@ wxBEGIN_EVENT_TABLE(MainFrame, wxFrame)
     EVT_SIZE(MainFrame::OnSize)
     EVT_ICONIZE(MainFrame::OnIconize)
 wxEND_EVENT_TABLE()
-
-

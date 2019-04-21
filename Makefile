@@ -12,7 +12,7 @@ WCXX = $(shell /Users/chico/Downloads/wxWidgets-3.1.2/build-msw/lib/wx/config/in
 WFLAGS = $(shell /Users/chico/Downloads/wxWidgets-3.1.2/build-msw/lib/wx/config/inplace-x86_64-w64-mingw32-msw-unicode-static-3.1 --cxxflags)
 WLIBS = $(shell /Users/chico/Downloads/wxWidgets-3.1.2/build-msw/lib/wx/config/inplace-x86_64-w64-mingw32-msw-unicode-static-3.1 --libs)
 
-FILES := program_table.cpp data_table.cpp main_frame.cpp
+FILES := program_table.cpp data_table.cpp register_panel.cpp main_frame.cpp
 
 all:
 	$(CXX) -std=c++17 main.cpp $(FLAGS) $(LIBS) -o main $(FILES)

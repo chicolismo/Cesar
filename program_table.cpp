@@ -11,6 +11,7 @@ ProgramTable::ProgramTable(wxWindow *parent, wxWindowID id)
     int font_size = 12;
 #endif
 
+    SetBackgroundColour(wxColour("#ffffff"));
     SetFont(wxFont(font_size, wxFONTFAMILY_MODERN, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, 0, wxT("")));
 
     InsertColumn(0, wxT("PC"), list_style, wxLIST_AUTOSIZE);
@@ -19,9 +20,9 @@ ProgramTable::ProgramTable(wxWindow *parent, wxWindowID id)
     InsertColumn(3, wxT("Mnemônico"), wxLIST_FORMAT_LEFT, wxLIST_AUTOSIZE);
 
     // Remove a barra de rolagem horizontal
-    SetScrollbar(wxHORIZONTAL, 0, 0, 0);
-
+    SetScrollbar(wxHORIZONTAL, 0, 0, 0, true);
     SetItemCount(200);
+    ResizeCols();
 }
 
 wxString ProgramTable::OnGetItemText(long item, long col) const {
@@ -40,9 +41,12 @@ void ProgramTable::SetItem(long item, long col, Byte value) {
 }
 
 void ProgramTable::ResizeCols() {
-    double q = (static_cast<double>(GetSize().GetWidth()) - 20.0) / 4;
+    int scrollbar_width = 10;
+    double q = (static_cast<double>(GetSize().GetWidth()) - 20.0) / 4 - scrollbar_width;
     SetColumnWidth(0, 20);
     SetColumnWidth(3, std::ceil(q));
     SetColumnWidth(3, std::ceil(q));
     SetColumnWidth(3, std::ceil(2 * q));
+
+    SetScrollbar(wxHORIZONTAL, 0, 0, 0, true);
 }

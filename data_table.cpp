@@ -11,16 +11,17 @@ DataTable::DataTable(wxWindow *parent, wxWindowID id)
     long list_style = wxLIST_FORMAT_RIGHT;
 #endif
 
+    SetBackgroundColour(wxColour("#ffffff"));
     SetFont(wxFont(font_size, wxFONTFAMILY_MODERN, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, 0, wxT("")));
+
     InsertColumn(0, wxT("Endereço"), list_style, wxLIST_AUTOSIZE);
     InsertColumn(1, wxT("Valor"), list_style, wxLIST_AUTOSIZE);
-
-    SetScrollbar(wxHORIZONTAL, 0, 0, 0);
 
     data.reserve(MEM_SIZE);
     std::fill(begin(data), end(data), 0);
 
     SetItemCount(MEM_SIZE);
+    ResizeCols();
 }
 
 
@@ -40,9 +41,10 @@ void DataTable::SetItem(long item, long col, Byte value) {
     data[item] = value;
 }
 
-
 void DataTable::ResizeCols() {
-    double width = static_cast<double>(GetSize().GetWidth());
-    SetColumnWidth(0, std::ceil(width / 2));
-    SetColumnWidth(1, std::ceil(width / 2));
-}
+    int scrollbar_width = 10;
+    double q = static_cast<double>(GetSize().GetWidth()) / 2 - scrollbar_width;
+    SetColumnWidth(0, std::ceil(q));
+    SetColumnWidth(1, std::ceil(q));
+
+    SetScrollbar(wxHORIZONTAL, 0, 0, 0, true); }
