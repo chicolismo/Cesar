@@ -15,12 +15,14 @@ private:
     SidePanel<DataTable *> *data_side_panel;
     //std::vector<wxDialog *> side_panels;
     std::vector<wxFrame *> side_panels;
+    Byte memory[MEM_SIZE];
 
 public:
     MainFrame(wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &pos = wxDefaultPosition,
               const wxSize &size = wxDefaultSize);
     void DoLayout();
     void UpdateSidePanelsPositions();
+    void UpdateTables();
 
     // Eventos
     void OnExit(wxCommandEvent &event);

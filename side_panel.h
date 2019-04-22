@@ -1,10 +1,11 @@
 #ifndef __SIDE_PANEL_H__
 #define __SIDE_PANEL_H__
 
-#include <wx/numformatter.h>
 #include "common.h"
 #include "data_table.h"
 #include "program_table.h"
+
+#include <wx/numformatter.h>
 
 template <class Table>
 class SidePanel : public wxFrame {
@@ -18,8 +19,8 @@ private:
     wxTextCtrl *value_control;
 
 public:
-    SidePanel(wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &pos = wxDefaultPosition,
-              const wxSize &size = wxDefaultSize);
+    SidePanel(wxWindow *parent, wxWindowID id, const wxString &title,
+              const wxPoint &pos = wxDefaultPosition, const wxSize &size = wxDefaultSize);
     Table GetTable() const;
     void SetTable(Table table);
     void DoLayout();
@@ -33,19 +34,20 @@ public:
 };
 
 template <class Table>
-SidePanel<Table>::SidePanel(wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &pos,
-                            const wxSize &size)
+SidePanel<Table>::SidePanel(wxWindow *parent, wxWindowID id, const wxString &title,
+                            const wxPoint &pos, const wxSize &size)
     : wxFrame(parent, id, title, pos, size, wxCAPTION | wxRESIZE_BORDER | wxFRAME_TOOL_WINDOW) {
 
     address_label = new wxStaticText(this, wxID_ANY, wxT("0"));
-    value_control = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
+    value_control = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize,
+                                   wxTE_PROCESS_ENTER | wxTE_RIGHT);
 }
 
 
 template <class Table>
 void SidePanel<Table>::DoLayout() {
 
-    wxBoxSizer *sizer       = new wxBoxSizer(wxVERTICAL);
+    wxBoxSizer *sizer = new wxBoxSizer(wxVERTICAL);
     wxBoxSizer *input_sizer = new wxBoxSizer(wxHORIZONTAL);
 
     sizer->Add(table, 1, wxEXPAND | wxALL, BORDER_SIZE);

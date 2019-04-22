@@ -1,7 +1,8 @@
 #include "data_table.h"
 
 DataTable::DataTable(wxWindow *parent, wxWindowID id)
-    : wxListCtrl(parent, id, wxDefaultPosition, wxSize(210, 500), wxLC_REPORT | wxLC_VIRTUAL | wxLC_HRULES | wxLC_VRULES) {
+    : wxListCtrl(parent, id, wxDefaultPosition, wxSize(210, 500),
+          wxLC_REPORT | wxLC_VIRTUAL | wxLC_HRULES | wxLC_VRULES) {
 
 #ifdef _WIN32
     int font_size = 10;
@@ -12,15 +13,13 @@ DataTable::DataTable(wxWindow *parent, wxWindowID id)
 #endif
 
     SetBackgroundColour(wxColour("#ffffff"));
-    SetFont(wxFont(font_size, wxFONTFAMILY_MODERN, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, 0, wxT("")));
+    SetFont(wxFont(font_size, wxFONTFAMILY_MODERN, wxFONTSTYLE_NORMAL,
+        wxFONTWEIGHT_NORMAL, 0, wxT("")));
 
     InsertColumn(0, wxT("Endereço"), list_style, wxLIST_AUTOSIZE);
     InsertColumn(1, wxT("Valor"), list_style, wxLIST_AUTOSIZE);
 
-    data.reserve(MEM_SIZE);
-    std::fill(begin(data), end(data), 0);
-
-    SetItemCount(MEM_SIZE);
+    SetItemCount(0);
     ResizeCols();
 }
 
@@ -39,6 +38,22 @@ wxString DataTable::OnGetItemText(long item, long col) const {
 
 void DataTable::SetItem(long item, long col, Byte value) {
     data[item] = value;
+    RefreshItem(item);
+}
+
+Byte *DataTable::GetData() {
+    return data;
+}
+
+void DataTable::SetData(Byte *data, size_t size) {
+    this->data = data;
+    this->size = size;
+    SetItemCount(size);
+    RefreshItems(0, size - 1);
+}
+
+void DataTable::Refresh() {
+    RefreshItems(0, size - 1);
 }
 
 void DataTable::ResizeCols() {
@@ -47,4 +62,5 @@ void DataTable::ResizeCols() {
     SetColumnWidth(0, std::ceil(q));
     SetColumnWidth(1, std::ceil(q));
 
-    SetScrollbar(wxHORIZONTAL, 0, 0, 0, true); }
+    SetScrollbar(wxHORIZONTAL, 0, 0, 0, true);
+}
